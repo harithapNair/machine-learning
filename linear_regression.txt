@@ -1,0 +1,56 @@
+import pandas as pd
+from sklearn.datasets import load_iris
+from sklearn import linear_model
+import matplotlib.pyplot as plt
+%matplotlib inline
+
+RUN
+
+iris=load_iris()
+
+RUN
+
+print(iris)
+
+RUN
+
+iris
+
+RUN
+
+df_x=pd.DataFrame(iris.data,columns=iris.feature_names)
+df_y=pd.DataFrame(iris.target)
+
+RUN
+
+regr=linear_model.LinearRegression()
+regr.fit(df_x,df_y)
+
+RUN
+
+print(regr.predict(df_x[-10:]))
+
+RUN
+
+iris.keys()
+
+RUN
+
+import matplotlib.pyplot as plt
+
+plt.scatter('data','feature_names')
+
+RUN
+
+x_index = 0
+y_index = 1
+formatter = plt.FuncFormatter(lambda i, *args: iris.target_names[int(i)])
+plt.figure(figsize=(5, 4))
+plt.scatter(iris.data[:, x_index], iris.data[:, y_index], c=iris.target)
+plt.colorbar(ticks=[0, 1, 2], format=formatter)
+plt.xlabel(iris.feature_names[x_index])
+plt.ylabel(iris.feature_names[y_index])
+plt.tight_layout()
+plt.show()
+
+RUN

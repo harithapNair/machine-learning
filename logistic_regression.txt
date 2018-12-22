@@ -1,0 +1,78 @@
+import numpy as np
+import pandas as pd
+
+from pandas import Series,DataFrame
+
+import scipy
+from scipy.stats import spearmanr
+
+from pylab import rcParams
+import seaborn as sb
+import matplotlib.pyplot as plt
+
+import sklearn
+from sklearn.preprocessing import scale
+from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import train_test_split
+from sklearn import metrics
+from sklearn import preprocessing
+
+RUN
+
+%matplotlib inline
+rcParams['figure.figsize']=5,4
+sb.set_style('whitegrid')
+
+RUN
+
+address='C:/Users/Dell/Desktop/mtcars.csv'
+cars = pd.read_csv(address)
+cars.columns = ['car_names','mpg','cyl','disp','hp','drat','wt','qsec', 'vs','am','gear','carb']
+cars.head()
+
+RUN
+
+cars_data = cars.ix[:,(5,11)].values
+cars_data_names = ['drat','carb']
+y= cars.ix[:,9].values
+
+RUN
+
+sb.regplot(x='drat',y='carb',data=cars,scatter = True)
+
+RUN
+
+drat = cars['drat']
+carb = cars['carb']
+spearmanr_coefficient, p_value = spearmanr(drat,carb)
+print ('Spearmanr Rank Correlation Coefficient %.3f' % (spearmanr_coefficient))
+
+RUN
+
+cars.isnull().sum()
+
+RUN
+
+sb.countplot(x='am', data = cars, palette = 'hls')
+
+RUN
+
+cars.info()
+
+RUN
+
+X = scale(cars_data)
+
+RUN
+
+LogReg = LogisticRegression()
+LogReg.fit(X,y)
+print (LogReg.score(X,y))
+
+RUN
+
+y_pred = LogReg.predict(X)
+from sklearn.metrics import classification_report
+
+print(classification_report(y,y_pred))
+

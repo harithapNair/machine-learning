@@ -1,0 +1,87 @@
+from sklearn.datasets import load_iris
+from sklearn.ensemble import RandomForestClassifier
+import pandas as pd
+import numpy as np
+np.random.seed(0)
+
+RUN
+
+iris = load_iris()
+df=pd.DataFrame(iris.data,columns=iris.feature_names)
+df.head()
+
+RUN
+
+print(iris)
+
+RUN
+
+df['species']= pd.Categorical.from_codes(iris.target,
+                                        iris.target_names)
+df.head()
+
+RUN
+
+df['is_train'] = np.random.uniform(0, 1, len(df))<=0.75
+df.head()
+
+RUN
+
+#create dataframes with test and training rows
+train, test = df[df['is_train']==True], df[df['is_train']==False]
+print('number of observations in the training data:' ,len(train))
+print('number of observations in the test_data: ', len(test))
+
+RUN
+
+features = df.columns[:4]
+features
+
+RUN
+
+y = pd.factorize(train['species'])[0]
+y
+
+RUN
+
+clf = RandomForestClassifier(n_jobs=2, random_state=0)
+clf.fit(train[features],y)
+
+RUN
+
+#applying the trained Classifier to the test
+clf.predict(test[features])
+
+RUN
+
+test[features]
+
+RUN
+
+#viewing the predicted probablities of the first 10 observations
+clf.predict_proba(test[features])[0:10]
+
+RUN
+
+#mapping names for the plants for each predicted plant class
+preds = iris.target_names[clf.predict(test[features])]
+#viewing the predicted species for the first 5 observations
+preds[0:5]
+
+RUN
+
+#viewing the actual species for the first 5 observations
+test['species'].head()
+
+RUN
+
+#creating confusion matrix
+pd.crosstab(test['species'],preds,rownames=['Actual Species'],
+           colnames=['Predicted Species'])
+
+RUN
+
+preds= iris.target_names[clf.predict([[5.0,3.6,1.4,2.0],[5.0,3.6,1.4,2.0]])]
+preds
+
+RUN

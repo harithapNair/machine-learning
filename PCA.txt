@@ -1,0 +1,87 @@
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+%matplotlib inline
+
+RUN
+
+rom sklearn.datasets import load_breast_cancer
+
+RUN
+
+cancer=load_breast_cancer()
+
+RUN
+
+cancer.keys()
+
+RUN
+
+print(cancer['DESCR'])
+
+RUN
+
+df=pd.DataFrame(cancer['data'],columns=cancer['feature_names'])
+
+RUN
+
+df.head(5)
+
+RUN
+
+from sklearn.preprocessing import StandardScaler
+
+RUN
+
+scaler=StandardScaler()
+scaler.fit(df)
+
+RUN
+
+scaled_data=scaler.transform(df)
+
+RUN
+
+scaled_data
+
+RUN
+
+from sklearn.decomposition import PCA
+
+RUN
+
+pca =PCA(n_components=30)
+
+RUN
+
+pca.fit(scaled_data)
+
+RUN
+
+x_pca=pca.transform(scaled_data)
+
+RUN
+
+scaled_data.shape
+
+RUN
+
+x_pca.shape
+
+RUN
+
+scaled_data
+
+RUN
+
+x_pca
+
+RUN
+
+plt.figure(figsize=(8,6))
+plt.scatter(x_pca[:,0],x_pca[:,1],c=cancer['target'])
+plt.xlabel('first principle component')
+plt.ylabel('second principle component')
+
+RUN
+

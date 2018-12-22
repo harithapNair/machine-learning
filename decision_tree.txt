@@ -1,0 +1,34 @@
+from sklearn import tree
+from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+import numpy as np
+
+RUN
+
+data = load_iris()
+
+RUN
+
+print (dir(data))
+
+RUN
+
+X_train, X_test , Y_train, Y_test = \
+train_test_split(data.data, data.target, test_size=0.20, random_state=42)
+
+RUN
+
+print(X_train.shape)
+
+RUN
+
+c= tree.DecisionTreeClassifier()
+c.fit(X_train,Y_train)
+accu_train = np.sum(c.predict(X_train) == Y_train ) / float(Y_train.size)
+accu_test = np.sum(c.predict(X_test) == Y_test ) / float(Y_test.size)
+
+print("Classification accu on train", accu_train)
+print("Classification accu on test", accu_test)
+
+RUN
+
